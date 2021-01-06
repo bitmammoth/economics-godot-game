@@ -1,0 +1,8 @@
+{
+	"contains_albedo": true,
+	"resolution": 512,
+	"src": {
+		"a": "#ff888888",
+		"rgb": "res://level/text/Ground_Grass_001_SD/Ground_Grass_001_COLOR.jpg"
+	}
+}

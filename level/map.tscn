@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://utils/map/BaseMap.cs" type="Script" id=2]
+[ext_resource path="res://maps/Tst.tscn" type="PackedScene" id=3]
+
+[node name="Spatial" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="spawn" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2462.78, 190.555, 3310.93 )
+
+[node name="map" parent="." instance=ExtResource( 3 )]

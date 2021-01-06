@@ -1,0 +1,8 @@
+{
+	"contains_albedo": true,
+	"resolution": 512,
+	"src": {
+		"a": "#ff888888",
+		"rgb": "res://level/drive-download-20201228T125228Z-001/Grass_005_BaseColor.jpg"
+	}
+}

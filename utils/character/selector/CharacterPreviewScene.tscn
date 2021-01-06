@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://utils/player/NetworkPlayerChar.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Environment" id=1]
+
+[node name="charPreview" type="Spatial"]
+
+[node name="char" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.934849, -2.32523 )
+
+[node name="Camera" type="Camera" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]

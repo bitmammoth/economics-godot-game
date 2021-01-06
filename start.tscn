@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CSharpScript" id=1]
+script/source = "using Godot;
+using System;
+using Game;
+public class start : Node
+{
+    public override void _Ready()
+    {
+        var charEditorScene = (PackedScene)ResourceLoader.Load(\"res://char_edit/char_edit_GUI.tscn\");
+        CharacterEditor charEditor = (CharacterEditor)charEditorScene.Instance();
+        AddChild(charEditor);
+
+        var networkCharScene = (PackedScene)ResourceLoader.Load(\"res://utils/player/NetworkPlayerChar.tscn\");
+        NetworkPlayerChar character = (NetworkPlayerChar)networkCharScene.Instance();
+        charEditor.SetCharacter(character);
+    }
+
+}
+"
+
+[node name="Node" type="Node"]
+script = SubResource( 1 )

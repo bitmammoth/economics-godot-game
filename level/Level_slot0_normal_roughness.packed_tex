@@ -1,0 +1,8 @@
+{
+	"contains_albedo": false,
+	"resolution": 512,
+	"src": {
+		"a": "res://level/drive-download-20201228T125228Z-001/Grass_005_Roughness.jpg",
+		"rgb": "res://level/drive-download-20201228T125228Z-001/Grass_005_Normal.jpg"
+	}
+}

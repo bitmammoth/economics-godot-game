@@ -1,0 +1,213 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://utils/ui/layout/theme.tres" type="Theme" id=1]
+
+[node name="server_preauth_dialog" type="WindowDialog"]
+anchor_right = 0.3
+anchor_bottom = 0.265
+size_flags_horizontal = 6
+size_flags_vertical = 2
+theme = ExtResource( 1 )
+resizable = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="server_preauth_tabs" type="TabContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="login_grid" type="VBoxContainer" parent="server_preauth_tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 30.0
+margin_right = -5.0
+margin_bottom = -5.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="login_error_message" type="Label" parent="server_preauth_tabs/login_grid"]
+margin_right = 374.0
+margin_bottom = 23.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "sadsadsad"
+
+[node name="HSplitContainer" type="HBoxContainer" parent="server_preauth_tabs/login_grid"]
+margin_top = 33.0
+margin_right = 374.0
+margin_bottom = 56.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="server_preauth_tabs/login_grid/HSplitContainer"]
+margin_right = 185.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+text = "Username"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="preauth_login_username" type="LineEdit" parent="server_preauth_tabs/login_grid/HSplitContainer"]
+margin_left = 189.0
+margin_right = 374.0
+margin_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="HSplitContainer2" type="HBoxContainer" parent="server_preauth_tabs/login_grid"]
+margin_top = 66.0
+margin_right = 374.0
+margin_bottom = 89.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="server_preauth_tabs/login_grid/HSplitContainer2"]
+margin_right = 185.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+text = "Password"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="preauth_login_password" type="LineEdit" parent="server_preauth_tabs/login_grid/HSplitContainer2"]
+margin_left = 189.0
+margin_right = 374.0
+margin_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+secret = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="GridContainer" type="GridContainer" parent="server_preauth_tabs/login_grid"]
+margin_top = 99.0
+margin_right = 374.0
+margin_bottom = 122.0
+columns = 2
+
+[node name="preauth_login_button" type="Button" parent="server_preauth_tabs/login_grid/GridContainer"]
+margin_right = 57.0
+margin_bottom = 23.0
+text = "Do login"
+
+[node name="preauth_login_cancel_button" type="Button" parent="server_preauth_tabs/login_grid/GridContainer"]
+margin_left = 61.0
+margin_right = 110.0
+margin_bottom = 23.0
+text = "Cancel"
+
+[node name="register_grid" type="VBoxContainer" parent="server_preauth_tabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 30.0
+margin_right = -5.0
+margin_bottom = -5.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="register_error_message" type="Label" parent="server_preauth_tabs/register_grid"]
+margin_right = 374.0
+margin_bottom = 22.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "sadsadsad"
+
+[node name="HSplitContainer" type="HBoxContainer" parent="server_preauth_tabs/register_grid"]
+margin_top = 32.0
+margin_right = 374.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="server_preauth_tabs/register_grid/HSplitContainer"]
+margin_right = 183.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+text = "Username"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="preauth_register_username" type="LineEdit" parent="server_preauth_tabs/register_grid/HSplitContainer"]
+margin_left = 191.0
+margin_right = 374.0
+margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="HSplitContainer2" type="HBoxContainer" parent="server_preauth_tabs/register_grid"]
+margin_top = 64.0
+margin_right = 374.0
+margin_bottom = 86.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="server_preauth_tabs/register_grid/HSplitContainer2"]
+margin_right = 183.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+text = "Password"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="preauth_register_password" type="LineEdit" parent="server_preauth_tabs/register_grid/HSplitContainer2"]
+margin_left = 191.0
+margin_right = 374.0
+margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+secret = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="GridContainer" type="GridContainer" parent="server_preauth_tabs/register_grid"]
+margin_top = 96.0
+margin_right = 374.0
+margin_bottom = 118.0
+columns = 2
+
+[node name="preauth_register_button" type="Button" parent="server_preauth_tabs/register_grid/GridContainer"]
+margin_right = 137.0
+margin_bottom = 22.0
+text = "Create new account"
+
+[node name="preauth_cancel_button" type="Button" parent="server_preauth_tabs/register_grid/GridContainer"]
+margin_left = 141.0
+margin_right = 195.0
+margin_bottom = 22.0
+text = "Cancel"

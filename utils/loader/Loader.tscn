@@ -1,0 +1,97 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://utils/loader/Loader.cs" type="Script" id=3]
+
+[sub_resource type="World" id=1]
+
+[sub_resource type="World" id=2]
+
+[sub_resource type="World" id=3]
+
+[node name="entry" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 2
+mouse_filter = 1
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="vbox" type="Node" parent="."]
+
+[node name="vbox_server" type="ViewportContainer" parent="vbox"]
+visible = false
+margin_left = 825.826
+margin_top = 377.89
+margin_right = 1025.83
+margin_bottom = 727.89
+rect_scale = Vector2( 2.08, 0.84 )
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="server_viewport" type="Viewport" parent="vbox/vbox_server"]
+size = Vector2( 200, 350 )
+size_override_stretch = true
+world = SubResource( 1 )
+handle_input_locally = false
+hdr = false
+render_target_update_mode = 0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="vbox_client_2" type="ViewportContainer" parent="vbox"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 698.172
+margin_top = 11.1324
+margin_right = -2.82837
+margin_bottom = -364.868
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="client_2_viewport" type="Viewport" parent="vbox/vbox_client_2"]
+size = Vector2( 578, 343 )
+size_override_stretch = true
+world = SubResource( 2 )
+handle_input_locally = false
+msaa = 1
+render_target_update_mode = 0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="vbox_client" type="ViewportContainer" parent="vbox"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = 6.10352e-05
+focus_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="client_viewport" type="Viewport" parent="vbox/vbox_client"]
+size = Vector2( 1280, 720 )
+world = SubResource( 3 )
+handle_input_locally = false
+msaa = 2
+render_target_update_mode = 3
+audio_listener_enable_3d = true
+shadow_atlas_size = 4096
+__meta__ = {
+"_editor_description_": ""
+}
