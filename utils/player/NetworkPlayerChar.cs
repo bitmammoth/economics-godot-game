@@ -22,26 +22,12 @@ namespace Game
         {
             skeleton = (Skeleton)GetNode(skeletonPath);
 
-            TakeOnClothes("body");
-            TakeOnClothes("eyes");
+            AddClothes("body");
+            AddClothes("eyes");
 
             animTree = (AnimationTree)GetNode(animationTreePath);
             animation_state_machine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");
 
-        }
-        private void TakeOnClothes(string cloth)
-        {
-            var take_cloth = skeleton.GetChildren();
-            foreach (MeshInstance i in take_cloth)
-            {
-                if (cloth == i.Name)
-                    return;
-            }
-
-            var clothes = (PackedScene)ResourceLoader.Load("res://char_edit/meshs/" + cloth + ".tscn");
-            MeshInstance newMesh = (MeshInstance)clothes.Instance();
-            skeleton.AddChild(newMesh);
-            GenerateMesh(newMesh);
         }
         private void ResetMesh(MeshInstance mesh_inst)
         {
@@ -115,7 +101,6 @@ namespace Game
 
             foreach (MeshInstance mesh in skeleton.GetChildren())
             {
-
                 var dic = (Godot.Collections.Dictionary)CharEditGlobal.meshs_shapes[mesh.Name]["shp_name_index"];
 
                 if (dic.Contains(shape_name))
@@ -144,7 +129,28 @@ namespace Game
             mesh.SetSurfaceMaterial(0, mat);
         }
 
+        public void AddClothes(string cloth)
+        {
+            var node = skeleton.GetNodeOrNull(cloth);
+            if (node != null)
+                return;
 
+            var clothes = (PackedScene)ResourceLoader.Load("res://assets/character/clothes/"+cloth+".tscn");
+            MeshInstance newMesh = (MeshInstance)clothes.Instance();
+            skeleton.AddChild(newMesh);
+
+            GenerateMesh(newMesh);
+        }
+        public void RemoveClothes(string cloth)
+        {
+            foreach (MeshInstance node in skeleton.GetChildren())
+            {
+                if (node.Name == cloth)
+                {
+                    node.QueueFree();
+                }
+            }
+        }
         public void ProcessAnimation(NetworkPlayerState state, PlayerInput movementState, float delta)
         {
             animTree.Set("parameters/blend_tree/locomotion/idle_walk_run/blend_position", movementState.velocity.Length());

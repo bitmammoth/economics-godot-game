@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
+[ext_resource path="res://utils/character/editor/CharacterEditor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://utils/character/selector/CreateDialogWindow.cs" type="Script" id=2]
 [ext_resource path="res://utils/character/selector/CharacterSelector.cs" type="Script" id=3]
 [ext_resource path="res://utils/ui/layout/theme.tres" type="Theme" id=4]
@@ -21,11 +22,13 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+holderPath = NodePath("ScrollContainer/char_holder")
+charEditorPath = NodePath("char_editor")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.819608 )
+color = Color( 0, 0, 0, 0.733333 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -58,7 +61,7 @@ margin_right = 768.0
 margin_bottom = 59.0
 size_flags_horizontal = 3
 
-[node name="CreateButton" type="Button" parent="VBoxContainer/CenterContainer"]
+[node name="create_button" type="Button" parent="VBoxContainer/CenterContainer"]
 margin_right = 136.0
 margin_bottom = 23.0
 text = "Create a new character"
@@ -66,10 +69,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
-margin_top = 63.0
-margin_right = 768.0
-margin_bottom = 432.0
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+margin_left = 256.0
+margin_top = 235.032
+margin_right = 1024.0
+margin_bottom = 604.032
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -77,7 +81,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="char_holder" type="GridContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="char_holder" type="GridContainer" parent="ScrollContainer"]
 margin_right = 768.0
 margin_bottom = 369.0
 size_flags_horizontal = 3
@@ -235,4 +239,7 @@ margin_left = 59.0
 margin_right = 115.0
 margin_bottom = 23.0
 text = "Confirm"
-[connection signal="pressed" from="VBoxContainer/CenterContainer/CreateButton" to="." method="onCreateButtonPressed"]
+
+[node name="char_editor" parent="." instance=ExtResource( 1 )]
+visible = false
+[connection signal="pressed" from="VBoxContainer/CenterContainer/create_button" to="." method="onCreateButtonPressed"]

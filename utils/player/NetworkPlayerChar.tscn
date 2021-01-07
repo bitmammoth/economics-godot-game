@@ -1,6 +1,8 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://utils/player/NetworkPlayerChar.cs" type="Script" id=1]
+[ext_resource path="res://assets/character/clothes/eyes.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/character/clothes/body.tscn" type="PackedScene" id=3]
 
 [sub_resource type="Animation" id=1]
 resource_name = "cool walk"
@@ -6682,6 +6684,10 @@ bones/65/parent = 64
 bones/65/rest = Transform( 0.998419, 0.056136, 0.00283599, -0.0561833, 0.995233, 0.0797148, 0.0016524, -0.0797481, 0.996814, 7.69342e-06, 0.13999, -5.19678e-06 )
 bones/65/enabled = true
 bones/65/bound_children = [  ]
+
+[node name="body" parent="skeleton" instance=ExtResource( 3 )]
+
+[node name="eyes" parent="skeleton" instance=ExtResource( 2 )]
 
 [node name="animation_player" type="AnimationPlayer" parent="."]
 autoplay = "walk"

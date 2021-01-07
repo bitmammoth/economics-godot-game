@@ -17,6 +17,9 @@ namespace Game.Rest
 {
     public class RestController : WebApiController
     {
+        public const int maxAllowedPlayer = 3;
+        public const bool playerCanDeleteChar = true;
+
         [Route(EmbedIO.HttpVerbs.Post, "/register")]
         public async Task<AuthCreateAccountMessage> DoRegister()
         {
@@ -51,6 +54,7 @@ namespace Game.Rest
 
                 var userExist = Server.database.Table<AuthUser>().Where(s => s.Username == username).FirstOrDefault();
 
+
                 if (userExist != null)
                 {
                     throw new Exception("Username is already in usage.");
@@ -60,6 +64,8 @@ namespace Game.Rest
                 {
                     throw new Exception("Password have to be min. 8 characters.");
                 }
+
+
 
                 var salt = PasswordHelper.GenerateSalt();
                 var hash = Convert.ToBase64String(salt);
@@ -106,6 +112,12 @@ namespace Game.Rest
 
             try
             {
+                var _chars = Server.database.Table<OnlineCharacter>().Where(s => s.AuthId == user.Id).Count();
+                if (_chars >= maxAllowedPlayer)
+                {
+                    throw new Exception("Maximum " + maxAllowedPlayer + " characters allowed on this server.");
+                }
+
                 var firstname = (data.firstname != null) ? data.firstname.Trim() : null;
                 var lastname = (data.lastname != null) ? data.lastname.Trim() : null;
                 var birthday = (data.birthday != null) ? data.birthday.Trim() : null;
@@ -120,6 +132,8 @@ namespace Game.Rest
                 checkForDefaulTextInput(lastname, "Lastname");
 
                 var dateStringFormat = "yyyy-MM-dd";
+
+
 
                 try
                 {
@@ -169,9 +183,12 @@ namespace Game.Rest
                 if (_char == null)
                     throw new Exception("Character not found");
 
+                if (playerCanDeleteChar == false)
+                    throw new Exception("Only a server administrator can remove your character.");
+
                 Server.database.Delete(_char);
-                GD.Print("[Rest] Create new character");
-                
+                GD.Print("[Rest] Delete character");
+
                 return new CharDeleteMessage { success = true, errorMessage = null };
             }
             catch (Exception e)

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://utils/ui/layout/theme.tres" type="Theme" id=1]
+[ext_resource path="res://utils/ui/controls/UIAcceptDialog.cs" type="Script" id=2]
+
+[node name="DeleteDialog" type="ConfirmationDialog"]
+margin_right = 200.0
+margin_bottom = 70.0
+theme = ExtResource( 1 )
+popup_exclusive = true
+window_title = "Please confirm"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://utils/client/Client.cs" type="Script" id=1]
 [ext_resource path="res://logo.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://utils/character/selector/CharacterSelector.tscn" type="PackedScene" id=8]
 [ext_resource path="res://utils/ui/layout/lobby.ogg" type="AudioStream" id=9]
 [ext_resource path="res://utils/ui/layout/fonts/Roboto-LightItalic.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://utils/ui/UIHelper.cs" type="Script" id=11]
 [ext_resource path="res://utils/ui/layout/fonts/Roboto-Bold.ttf" type="DynamicFontData" id=12]
 
 [sub_resource type="StyleBoxEmpty" id=1]
@@ -138,9 +139,6 @@ text = "\"The first digital eco system.\""
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="char_selector" parent="hud" instance=ExtResource( 8 )]
-visible = false
 
 [node name="custom_connect_dialog" type="ConfirmationDialog" parent="hud"]
 anchor_right = 0.3
@@ -312,4 +310,9 @@ custom_fonts/font = SubResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="char_selector" parent="hud" instance=ExtResource( 8 )]
+
+[node name="ui_helper" type="Node" parent="hud"]
+script = ExtResource( 11 )
 [connection signal="pressed" from="hud/menu/ItemList/connect_button" to="." method="_on_connect_button_pressed"]

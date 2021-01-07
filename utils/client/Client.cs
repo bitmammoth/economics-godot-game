@@ -24,7 +24,7 @@ namespace Game
 
         AcceptDialog customConnectDialog = null;
         ServerPreAuthDialog serverPareAuthDialog = null;
-        CharacterSelector charSelctor = null;
+        CharacterSelector charSelector = null;
 
         Timer statsTimer = new Timer();
         public override void _Ready()
@@ -41,13 +41,14 @@ namespace Game
             customConnectDialog = GetNode("hud/custom_connect_dialog") as AcceptDialog;
             customConnectDialog.Connect("confirmed", this, "onCustomServerConnect");
 
-            charSelctor = GetNode("hud/char_selector") as CharacterSelector;
-            charSelctor.Visible = false;
+            charSelector = GetNode("hud/char_selector") as CharacterSelector;
+            charSelector.Visible = false;
 
             statsTimer.Name = "stats_timer";
             statsTimer.Autostart = true;
             statsTimer.WaitTime = 0.5f;
             statsTimer.Connect("timeout", this, "showSystemStats");
+            charSelector.Connect("onSelect", this, "onSelectedChar");
 
             AddChild(statsTimer);
         }
@@ -55,14 +56,22 @@ namespace Game
         public void onLoginSuccess(string _token)
         {
             accessToken = _token;
-            charSelctor.Visible = true;
-            charSelctor.hostname = hostname;
-            charSelctor.port = port;
-            charSelctor.SetToken(accessToken);
-            charSelctor.GetCharList();
+            charSelector.Visible = true;
+            charSelector.hostname = hostname;
+            charSelector.port = port;
+            charSelector.SetToken(accessToken);
+            charSelector.GetCharList();
             
             //ConnectToServer();
             
+        }
+
+        public void onSelectedChar(int charId)
+        {
+            charSelector.Visible = false;
+            
+            //transmit selected char to server
+            ConnectToServer();
         }
         public void onCustomServerConnect()
         {

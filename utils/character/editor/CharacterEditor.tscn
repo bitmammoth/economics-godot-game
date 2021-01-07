@@ -1,7 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://char_edit/morph_slider.tscn" type="PackedScene" id=1]
 [ext_resource path="res://utils/character/editor/CharacterEditor.cs" type="Script" id=2]
+[ext_resource path="res://utils/player/NetworkPlayerChar.tscn" type="PackedScene" id=3]
+[ext_resource path="res://utils/ui/layout/theme.tres" type="Theme" id=4]
+[ext_resource path="res://utils/character/editor/lobbyEnvironment.tres" type="Environment" id=5]
+[ext_resource path="res://utils/character/editor/bg.tres" type="Material" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Camera
@@ -51,26 +55,102 @@ func _on_reset_view_pressed():
 	$spt.rotation_degrees = Vector3 (0,0,0)
 "
 
-[sub_resource type="ProceduralSky" id=2]
-
-[sub_resource type="Environment" id=3]
-background_mode = 2
-background_sky = SubResource( 2 )
+[sub_resource type="ArrayMesh" id=2]
+resource_name = "Plane"
+surfaces/0 = {
+"aabb": AABB( -10.5773, 0, -5.83781, 21.1546, 6.45673, 12.8644 ),
+"array_data": PoolByteArray( 139, 60, 41, 65, 125, 157, 206, 64, 95, 207, 186, 192, 0, 0, 127, 0, 129, 0, 0, 127, 217, 26, 249, 59, 139, 60, 41, 193, 216, 20, 46, 64, 95, 207, 186, 192, 0, 4, 126, 0, 129, 0, 0, 127, 249, 59, 145, 58, 139, 60, 41, 65, 215, 20, 46, 64, 95, 207, 186, 192, 0, 4, 126, 0, 129, 0, 0, 127, 216, 26, 145, 58, 139, 60, 41, 193, 125, 157, 206, 64, 95, 207, 186, 192, 0, 0, 127, 0, 130, 0, 0, 127, 249, 59, 249, 59, 139, 60, 41, 193, 155, 78, 21, 64, 146, 236, 185, 192, 0, 18, 125, 0, 130, 0, 0, 127, 249, 59, 108, 58, 139, 60, 41, 65, 154, 78, 21, 64, 146, 236, 185, 192, 0, 18, 125, 0, 130, 0, 0, 127, 216, 26, 108, 58, 139, 60, 41, 193, 244, 18, 250, 63, 199, 72, 183, 192, 0, 35, 121, 0, 130, 0, 0, 127, 249, 59, 71, 58, 139, 60, 41, 65, 242, 18, 250, 63, 199, 72, 183, 192, 0, 35, 121, 0, 130, 0, 0, 127, 216, 26, 71, 58, 139, 60, 41, 193, 224, 135, 203, 63, 192, 241, 178, 192, 0, 52, 115, 0, 129, 0, 0, 127, 249, 59, 33, 58, 139, 60, 41, 65, 223, 135, 203, 63, 192, 241, 178, 192, 0, 52, 115, 0, 129, 0, 0, 127, 216, 26, 33, 58, 139, 60, 41, 193, 138, 238, 159, 63, 30, 254, 172, 192, 0, 68, 106, 0, 129, 0, 0, 127, 249, 59, 252, 57, 139, 60, 41, 65, 137, 238, 159, 63, 30, 254, 172, 192, 0, 68, 106, 0, 129, 0, 0, 127, 215, 26, 252, 57, 139, 60, 41, 193, 80, 84, 112, 63, 226, 140, 165, 192, 0, 83, 95, 0, 130, 0, 0, 127, 249, 59, 215, 57, 139, 60, 41, 65, 78, 84, 112, 63, 226, 140, 165, 192, 0, 83, 95, 0, 130, 0, 0, 127, 215, 26, 215, 57, 139, 60, 41, 193, 236, 19, 42, 63, 213, 196, 156, 192, 0, 95, 83, 0, 130, 0, 0, 127, 249, 59, 177, 57, 139, 60, 41, 65, 236, 19, 42, 63, 213, 196, 156, 192, 0, 95, 83, 0, 130, 0, 0, 127, 215, 26, 177, 57, 139, 60, 41, 193, 24, 20, 221, 62, 188, 211, 146, 192, 0, 106, 68, 0, 129, 0, 0, 127, 249, 59, 140, 57, 139, 60, 41, 65, 24, 20, 221, 62, 188, 211, 146, 192, 0, 106, 68, 0, 129, 0, 0, 127, 215, 26, 140, 57, 139, 60, 41, 193, 208, 179, 123, 62, 103, 237, 135, 192, 0, 115, 52, 0, 129, 0, 0, 127, 249, 59, 103, 57, 139, 60, 41, 65, 208, 179, 123, 62, 103, 237, 135, 192, 0, 115, 52, 0, 129, 0, 0, 127, 215, 26, 103, 57, 139, 60, 41, 193, 0, 166, 225, 61, 68, 149, 120, 192, 0, 121, 35, 0, 130, 0, 0, 127, 249, 59, 65, 57, 139, 60, 41, 65, 0, 166, 225, 61, 68, 149, 120, 192, 0, 121, 35, 0, 130, 0, 0, 127, 215, 26, 65, 57, 139, 60, 41, 193, 128, 205, 226, 60, 35, 80, 96, 192, 0, 125, 18, 0, 130, 0, 0, 127, 249, 59, 28, 57, 139, 60, 41, 65, 128, 205, 226, 60, 35, 80, 96, 192, 0, 125, 18, 0, 130, 0, 0, 127, 215, 26, 28, 57, 139, 60, 41, 193, 0, 0, 0, 0, 230, 137, 71, 192, 0, 126, 4, 0, 129, 0, 0, 127, 249, 59, 247, 56, 139, 60, 41, 65, 0, 0, 0, 0, 230, 137, 71, 192, 0, 126, 4, 0, 129, 0, 0, 127, 215, 26, 247, 56, 139, 60, 41, 193, 0, 0, 0, 0, 254, 217, 224, 64, 0, 127, 0, 0, 129, 0, 0, 127, 249, 59, 159, 48, 139, 60, 41, 65, 0, 0, 0, 0, 254, 217, 224, 64, 0, 127, 0, 0, 129, 0, 0, 127, 217, 26, 158, 48 ),
+"array_index_data": PoolByteArray( 0, 0, 2, 0, 1, 0, 0, 0, 1, 0, 3, 0, 2, 0, 5, 0, 4, 0, 2, 0, 4, 0, 1, 0, 5, 0, 7, 0, 6, 0, 5, 0, 6, 0, 4, 0, 7, 0, 9, 0, 8, 0, 7, 0, 8, 0, 6, 0, 9, 0, 11, 0, 10, 0, 9, 0, 10, 0, 8, 0, 11, 0, 13, 0, 12, 0, 11, 0, 12, 0, 10, 0, 13, 0, 15, 0, 14, 0, 13, 0, 14, 0, 12, 0, 15, 0, 17, 0, 16, 0, 15, 0, 16, 0, 14, 0, 17, 0, 19, 0, 18, 0, 17, 0, 18, 0, 16, 0, 19, 0, 21, 0, 20, 0, 19, 0, 20, 0, 18, 0, 21, 0, 23, 0, 22, 0, 21, 0, 22, 0, 20, 0, 23, 0, 25, 0, 24, 0, 23, 0, 24, 0, 22, 0, 26, 0, 24, 0, 25, 0, 26, 0, 25, 0, 27, 0 ),
+"blend_shape_data": [  ],
+"format": 97559,
+"index_count": 78,
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 28
+}
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 4 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.176471, 0.176471, 0.176471, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="viewport_container" type="ViewportContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="viewport" type="Viewport" parent="viewport_container"]
+size = Vector2( 1280, 720 )
+handle_input_locally = false
+msaa = 1
+render_target_update_mode = 3
+
+[node name="cam" type="Camera" parent="viewport_container/viewport"]
+environment = ExtResource( 5 )
+current = true
+fov = 59.2
+size = 1.5
+near = 0.02
+far = 126.0
+script = SubResource( 1 )
+
+[node name="bg" type="Spatial" parent="viewport_container/viewport/cam"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -1.13564, -2.28605 )
+
+[node name="Plane" type="MeshInstance" parent="viewport_container/viewport/cam/bg"]
+mesh = SubResource( 2 )
+material/0 = ExtResource( 6 )
+
+[node name="spt" type="Spatial" parent="viewport_container/viewport/cam"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.235978, -0.254865, -1.16315 )
+
+[node name="char" parent="viewport_container/viewport/cam/spt" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.742687, -0.769474 )
+
+[node name="SpotLight" type="SpotLight" parent="viewport_container/viewport/cam"]
+transform = Transform( 0.880767, -0.231213, 0.413267, 0, 0.872701, 0.488255, -0.47355, -0.430039, 0.768646, 1.22499, 0.61596, -0.264397 )
+shadow_enabled = true
+spot_range = 18.7
+spot_angle = 47.0
+
+[node name="SpotLight2" type="SpotLight" parent="viewport_container/viewport/cam"]
+transform = Transform( 0.882954, -0.137271, -0.448942, 0.0223442, 0.9675, -0.251883, 0.468928, 0.21237, 0.857325, -0.521632, 0.0356922, 0.55101 )
+light_color = Color( 0.388235, 0.47451, 0.466667, 1 )
+light_specular = 0.0
+spot_range = 9.9
+spot_angle = 47.0
+
+[node name="SpotLight3" type="SpotLight" parent="viewport_container/viewport/cam"]
+transform = Transform( -0.899286, -0.082209, -0.429566, 0.00593398, 0.979792, -0.199932, 0.437322, -0.182345, -0.880625, -0.0903033, -0.0201468, -2.3072 )
+light_energy = 2.8
+light_specular = 0.0
+spot_range = 10.0
+spot_angle = 47.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="viewport_container/viewport/cam"]
+environment = ExtResource( 5 )
 
 [node name="dress_mini_03" type="CheckBox" parent="."]
 margin_left = 1111.24
 margin_top = 590.0
 margin_right = 1231.24
 margin_bottom = 614.0
-text = "dress_mini_03"
+text = "Drress"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -80,14 +160,14 @@ margin_left = 1111.24
 margin_top = 612.071
 margin_right = 1228.24
 margin_bottom = 636.071
-text = "male_shirt_01"
+text = "Shirt Male"
 
 [node name="male_jeans_01" type="CheckBox" parent="."]
 margin_left = 1110.24
 margin_top = 632.632
 margin_right = 1232.24
 margin_bottom = 656.632
-text = "male_jeans_01"
+text = "JEans Male"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -104,42 +184,6 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="save_file" type="FileDialog" parent="."]
-margin_left = 10.0
-margin_top = 32.0
-margin_right = 1024.0
-margin_bottom = 590.0
-window_title = "Сохранить файл"
-access = 2
-filters = PoolStringArray( "*.json" )
-current_dir = "/"
-current_path = "/"
-
-[node name="open_file" type="FileDialog" parent="."]
-margin_left = 10.0
-margin_top = 32.0
-margin_right = 1024.0
-margin_bottom = 590.0
-window_title = "Datei öffnen"
-mode = 0
-access = 2
-filters = PoolStringArray( "*.json" )
-current_dir = "/"
-current_path = "/"
-
-[node name="print" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -8.0
-margin_top = -30.0
-margin_right = 132.0
-margin_bottom = -2.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-text = "print params"
 
 [node name="random_gen" type="Button" parent="."]
 anchor_left = 0.5
@@ -203,6 +247,9 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 action_mode = 0
 text = "Save"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="open" type="Button" parent="."]
 anchor_left = 1.0
@@ -213,25 +260,16 @@ margin_bottom = 32.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 action_mode = 0
-text = "Open"
-
-[node name="cam" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0345633, 0.865932, 1.52344 )
-size = 1.5
-near = 0.01
-script = SubResource( 1 )
-
-[node name="spt" type="Spatial" parent="cam"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0.235978, -0.041545, -1.63648 )
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="cam"]
-environment = SubResource( 3 )
-
-[node name="DirectionalLight" type="DirectionalLight" parent="cam"]
+text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="morphs" type="TabContainer" parent="."]
-margin_right = 353.0
-margin_bottom = 720.0
+margin_left = 17.0
+margin_top = 18.0
+margin_right = 368.0
+margin_bottom = 706.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 tab_align = 0
@@ -242,10 +280,10 @@ __meta__ = {
 [node name="Body" type="Tabs" parent="morphs"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 30.0
+margin_right = -5.0
+margin_bottom = -5.0
 
 [node name="fat" parent="morphs/Body" instance=ExtResource( 1 )]
 margin_left = 119.0
@@ -551,10 +589,10 @@ text = "torso_pam9_-"
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 30.0
+margin_right = -5.0
+margin_bottom = -5.0
 
 [node name="african" parent="morphs/Head" instance=ExtResource( 1 )]
 margin_left = 4.76837e-07
@@ -873,10 +911,10 @@ text = "jaw_pam7_-"
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 30.0
+margin_right = -5.0
+margin_bottom = -5.0
 
 [node name="nose_scale_X" parent="morphs/Face" instance=ExtResource( 1 )]
 margin_top = -2.0
@@ -1172,10 +1210,10 @@ text = "lips_pam5_-"
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 30.0
+margin_right = -5.0
+margin_bottom = -5.0
 
 [node name="eye_pam2_-" parent="morphs/Eyes" instance=ExtResource( 1 )]
 margin_top = 29.0
@@ -1344,10 +1382,10 @@ text = "eye_pam15_-"
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 30.0
+margin_right = -5.0
+margin_bottom = -5.0
 
 [node name="exp_anger" parent="morphs/Exp" instance=ExtResource( 1 )]
 margin_top = -2.0
@@ -1528,11 +1566,8 @@ text = "exp_sick"
 [connection signal="toggled" from="dress_mini_03" to="." method="_on_dress_mini_03_toggled"]
 [connection signal="toggled" from="male_shirt_01" to="." method="_on_male_shirt_01_toggled"]
 [connection signal="toggled" from="male_jeans_01" to="." method="_on_male_jeans_01_toggled"]
-[connection signal="file_selected" from="save_file" to="." method="_on_save_file_file_selected"]
-[connection signal="file_selected" from="open_file" to="." method="_on_open_file_file_selected"]
-[connection signal="pressed" from="print" to="." method="_on_print_pressed"]
 [connection signal="pressed" from="random_gen" to="." method="OnRandomButtonPressed"]
-[connection signal="value_changed" from="random_gen/Label/HSlider" to="." method="set_cartoonish"]
-[connection signal="pressed" from="reset_view" to="cam" method="_on_reset_view_pressed"]
-[connection signal="pressed" from="save" to="." method="_on_save_pressed"]
-[connection signal="pressed" from="open" to="." method="_on_open_pressed"]
+[connection signal="value_changed" from="random_gen/Label/HSlider" to="." method="setCartoonish"]
+[connection signal="pressed" from="reset_view" to="viewport_container/viewport/cam" method="_on_reset_view_pressed"]
+[connection signal="pressed" from="save" to="." method="onSaveButtonPressed"]
+[connection signal="pressed" from="open" to="." method="onCloseButtonPressed"]

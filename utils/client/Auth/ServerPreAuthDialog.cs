@@ -11,6 +11,8 @@ public class ServerPreAuthDialog : WindowDialog
     [Signal]
     public delegate void onLogin(string token);
 
+   
+
     public override void _Ready()
     {
 
@@ -19,6 +21,7 @@ public class ServerPreAuthDialog : WindowDialog
 
         (FindNode("preauth_cancel_button") as Button).Connect("pressed", this, "onServerCreateAbort");
         (FindNode("preauth_login_cancel_button") as Button).Connect("pressed", this, "onServerCreateAbort");
+        
         Connect("about_to_show", this, "onShow");
 
         (FindNode("server_preauth_tabs") as TabContainer).SetTabTitle(0, "Login");
