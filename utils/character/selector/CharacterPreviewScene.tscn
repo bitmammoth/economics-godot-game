@@ -2,7 +2,7 @@
 
 [ext_resource path="res://utils/player/NetworkPlayerChar.tscn" type="PackedScene" id=1]
 
-[sub_resource type="Environment" id=5]
+[sub_resource type="Environment" id=1]
 
 [node name="charPreview" type="Spatial"]
 
@@ -13,7 +13,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.934849, -2.32523 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.578426 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 5 )
+environment = SubResource( 1 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.26849 )
