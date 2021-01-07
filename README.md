@@ -2,14 +2,14 @@
 
 A Godot game project written in c# to build the base functionality for role play games and modders
 
-##In progress
+## In progress
 - Object spawner / placer
 - Object downloader from the http backend server
 - Vehicle physics
 - Character creation and editor
 - User registration and authenfication
 
-##Current features
+## Current features
 - Client and server version in one project
 - Writen in C# (No gd scripts in usage)
 - Rest Backend with SQlite Database
