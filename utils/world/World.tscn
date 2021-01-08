@@ -209,10 +209,10 @@ void fragment(){
 shader = SubResource( 1 )
 shader_param/iTime = null
 shader_param/iFrame = null
-shader_param/COVERAGE = 0.5
-shader_param/THICKNESS = 25.0
+shader_param/COVERAGE = 0.374
+shader_param/THICKNESS = 6.871
 shader_param/ABSORPTION = 1.03
-shader_param/STEPS = 25
+shader_param/STEPS = 30
 shader_param/iChannel0 = ExtResource( 2 )
 
 [sub_resource type="ImageTexture" id=3]
@@ -226,6 +226,7 @@ objectSpawnerPath = NodePath("object_spawner")
 environment = ExtResource( 1 )
 
 [node name="clouds" type="Viewport" parent="."]
+arvr = true
 size = Vector2( 1280, 720 )
 render_target_update_mode = 3
 script = ExtResource( 5 )
@@ -251,7 +252,7 @@ script = ExtResource( 3 )
 
 [node name="Sun_Moon" type="DirectionalLight" parent="."]
 transform = Transform( -0.540273, 0.225681, -0.810662, -0.203062, 0.89993, 0.385865, 0.816622, 0.373087, -0.440381, 139.301, 707.599, -0.5 )
-light_energy = 2.0
+light_energy = 2.89
 shadow_enabled = true
 shadow_color = Color( 0.6, 0.6, 0.6, 1 )
 directional_shadow_blend_splits = true
