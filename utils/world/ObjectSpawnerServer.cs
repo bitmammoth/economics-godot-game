@@ -7,21 +7,19 @@ namespace Game
     {
         public override void _Ready()
         {
+            base._Ready();
             if (Server.database != null)
             {
                 foreach (var item in Server.database.Table<WorldObject>().ToList())
                 {
-                    SpawnObject(item);
+                    _spawnQueue.Enqueue(item);
                 }
             }
         }
 
-
         [Remote]
         public void GetObjectList(Vector3 position, float distance)
         {
-            //GD.Print("[Server][Object] Request list for " + position.ToString() + " with distance " + distance);
-
             var list = new List<WorldObject>();
             foreach (WorldObjectNode x in GetChildren())
             {
@@ -34,18 +32,18 @@ namespace Game
             var id = Multiplayer.GetRpcSenderId();
             var objectJson = Networking.NetworkCompressor.Compress(list);
 
-            RpcId(id, "UpdateClientObjectList", objectJson);
+            RpcId(id, "UpdateClientObjectList", objectJson, GetChildCount());
         }
 
         [Remote]
-        public void AddObject(string model, Vector3 pos, Vector3 rot)
+        public void AddObject(string model,  WorldObjectType type, Vector3 pos, Vector3 rot)
         {
             GD.Print("[Server][Object] Create " + model);
 
             var obj = new WorldObject
             {
-
-                modelName = model
+                modelName = model,
+                type = type
             };
 
             obj.SetPosition(pos);
@@ -53,10 +51,7 @@ namespace Game
 
             Server.database.Insert(obj);
 
-            System.Threading.Thread thread = new System.Threading.Thread(() => SpawnObject(obj));
-            thread.Start();
-
-            
+            _spawnQueue.Enqueue(obj);
 
             var objectJson = Networking.NetworkCompressor.Compress(obj);
             Rpc("OnNewObject", objectJson);

@@ -38,6 +38,9 @@ namespace Game
         [Export]
         public NodePath crosshairPath;
 
+        [Export]
+        public NodePath objectEditorPath;
+
         public ClippedCamera camera { get; set; }
         public Spatial cameraBase { get; set; }
         public Spatial target { get; set; }
@@ -53,6 +56,8 @@ namespace Game
         private Vector3 camera_target_initial = Vector3.Zero;
         private Transform origCameraTransform;
 
+        private ObjectEditor objectEditor;
+
 
         private float camera_x_rot = 0.0f;
         private float camera_y_rot = 0.0f;
@@ -60,6 +65,8 @@ namespace Game
         private Timer stateTimer = new Timer();
 
         private bool reProcess = false;
+
+        public bool  onFocusing = false;
 
 
         public List<FrameSnapshot> snapshots = new List<FrameSnapshot>();
@@ -79,6 +86,7 @@ namespace Game
             crosshair = (Control)GetNode(crosshairPath);
             character = (NetworkPlayerChar)GetNode(characterPath);
             rayDrag = (RayCast)GetNode(rayDragPath);
+            objectEditor = (ObjectEditor)GetNode(objectEditorPath);
 
             camera_target_initial = target.Transform.origin;
             origCameraTransform = camera.Transform;
@@ -255,12 +263,10 @@ namespace Game
                 movementInput.movement_direction.x += 1;
 
 
-            if (Input.IsActionJustPressed("spawn_object") && Input.GetMouseMode() != Input.MouseMode.Visible)
-                DrawObject();
-            if (Input.IsActionJustReleased("spawn_object") && Input.GetMouseMode() != Input.MouseMode.Visible)
-                RequestAddObject();
-            if (Input.IsActionPressed("spawn_object") && Input.GetMouseMode() != Input.MouseMode.Visible)
-                MoveObject();
+            if (Input.IsActionJustReleased("editor") && Input.GetMouseMode() != Input.MouseMode.Visible)
+            {
+                objectEditor.Show();
+            }
 
 
             // if (Input.IsActionJustReleased("save_objects") && Input.GetMouseMode() != Input.MouseMode.Visible)
@@ -297,14 +303,9 @@ namespace Game
                 movementInput.isJumping = false;
 
             //jumping
-            if (Input.IsActionJustReleased("test"))
+            if (Input.IsActionJustReleased("map"))
             {
-                GD.Print("Cheating");
-
-                var gt = GlobalTransform;
-
-                gt.origin = new Vector3(2559.1f, 223.767f, 4401f);
-                GlobalTransform = gt;
+                (GetNode("hud/radar_map") as RadarMap).Visible = !(GetNode("hud/radar_map") as RadarMap).Visible;
             }
 
             //aiming
@@ -312,7 +313,7 @@ namespace Game
             var fov = fov_initial;
             var crosshair_alpha = 0.0f;
 
-            if (Input.IsActionPressed("rmb") || Input.IsActionPressed("spawn_object"))
+            if (Input.IsActionPressed("rmb") || onFocusing)
             {
                 camera_target.x = -1.25f;
                 crosshair_alpha = 1.0f;
@@ -360,76 +361,6 @@ namespace Game
             }
 
             return movementInput;
-        }
-
-        private Game.WorldObjectNode newWorldObject = null;
-        private bool saveObject = false;
-        private void DrawObject()
-        {
-            var gj = new Game.WorldObject
-            {
-                modelName = "tree"
-            };
-
-            newWorldObject = new Game.WorldObjectNode
-            {
-                worldObject = gj
-            };
-
-            newWorldObject.LoadObjectByFilePath();
-            newWorldObject.Name = "temp_object";
-
-            saveObject = false;
-
-            GetParent().GetParent().AddChild(newWorldObject);
-
-        }
-        private void RequestAddObject()
-        {
-            if (saveObject && newWorldObject != null)
-            {
-                var modelName = newWorldObject.worldObject.modelName;
-                var position = newWorldObject.GlobalTransform.origin;
-                var rotation = newWorldObject.Rotation;
-                var world = GetParent().GetParent() as World;
-                world.spawner.AskToCreate(modelName, position, rotation);
-            }
-
-            if (newWorldObject != null)
-            {
-                GetParent().GetParent().RemoveChild(newWorldObject);
-                newWorldObject = null;
-            }
-
-            saveObject = false;
-        }
-
-        private void MoveObject()
-        {
-            if (rayDrag.IsColliding() && newWorldObject != null)
-            {
-                newWorldObject.Visible = true;
-                var raycast_result = rayDrag.GetCollider();
-
-                if (raycast_result is StaticBody || raycast_result is Spatial)
-                {
-                    var gt = newWorldObject.GlobalTransform;
-                    gt.origin = rayDrag.GetCollisionPoint();
-                    newWorldObject.GlobalTransform = gt;
-                    newWorldObject.Visible = true;
-
-                    saveObject = true;
-
-                }
-                else
-                {
-                    newWorldObject.Visible = false;
-                }
-            }
-            else if (newWorldObject != null)
-            {
-                newWorldObject.Visible = false;
-            }
         }
 
         public override void _Input(InputEvent @event)

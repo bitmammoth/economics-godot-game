@@ -14,43 +14,61 @@ namespace Game
         private float syncedTime = 0.0f;
 
         private bool onUpdate = false;
+        private bool initalize = false;
 
+        public int totalObjects = 0;
+
+        public int objectsDrawin
+        {
+            get
+            {
+                return GetChildCount();
+            }
+        }
+
+        public void setInit(bool _init)
+        {
+            initalize = _init;
+        }
 
         public override void _Process(float delta)
         {
+            if (!initalize)
+                return;
+
             if (syncedTime >= SyncTime)
             {
                 if (!onUpdate)
                     RpcUnreliableId(1, "GetObjectList", (GetParent() as World).player.GetPlayerPosition(), ObjectDistance);
+
                 syncedTime = 0.0f;
             }
 
             syncedTime += delta;
         }
 
-        public void AskToCreate(string model, Vector3 pos, Vector3 rot)
+        public void AskToCreate(string model, WorldObjectType type, Vector3 pos, Vector3 rot)
         {
-            RpcId(1, "AddObject", model, pos, rot);
+            RpcId(1, "AddObject", model, type, pos, rot);
         }
 
         [Puppet]
-        private void UpdateClientObjectList(string json)
+        private void UpdateClientObjectList(string json, int _totalObjects)
         {
             if (onUpdate)
                 return;
 
             onUpdate = true;
             var objects = Networking.NetworkCompressor.Decompress<List<WorldObject>>(json);
-
-            System.Threading.Thread thread = new System.Threading.Thread(() => ThreadedCreation(objects));
-            thread.Start();
-
+            ThreadedCreation(objects);
+            totalObjects = _totalObjects;
             onUpdate = false;
         }
 
         private void ThreadedCreation(List<WorldObject> _list)
         {
             var ids = _list.Select(c => c.Id.ToString()).ToList();
+            _spawnQueue.Clear();
 
             foreach (var obj in _list)
             {
@@ -59,7 +77,7 @@ namespace Game
                     continue;
                 else
                 {
-                    SpawnObject(obj);
+                    _spawnQueue.Enqueue(obj);
                 }
             }
 
@@ -67,25 +85,17 @@ namespace Game
             {
                 if (!ids.Contains(existObj.Name))
                 {
-                    existObj.QueueFree();
+                    _nodeToDelete.Enqueue(existObj);
                 }
             }
-
         }
 
         [Puppet]
         private void OnNewObject(string objectJson)
         {
             var obj = Networking.NetworkCompressor.Decompress<WorldObject>(objectJson);
-            GD.Print("[Client][Object] " + obj.modelName + " at" + obj.GetPosition().ToString());
-
-
-            System.Threading.Thread thread = new System.Threading.Thread(() => SpawnObject(obj));
-            thread.Start();
+            _spawnQueue.Enqueue(obj);
         }
-
-
-
     }
 }
 

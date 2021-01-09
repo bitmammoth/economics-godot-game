@@ -7,7 +7,8 @@ namespace Game
     public enum WorldObjectType
     {
 
-        PROPERTY
+        PROPERTY,
+        MARKER
     }
 }
 

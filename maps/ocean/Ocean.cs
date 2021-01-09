@@ -189,8 +189,7 @@ namespace Game
                     var cube_map = cube_cam.UpdateMap();
 
                     var obj = (MaterialOverride as ShaderMaterial).GetShaderParam("environment");
-                    GD.Print(obj);
-               (MaterialOverride as ShaderMaterial).SetShaderParam("environment", cube_map);
+                    (MaterialOverride as ShaderMaterial).SetShaderParam("environment", cube_map);
                 }
                 counter = Mathf.Inf;
             }
@@ -217,7 +216,6 @@ namespace Game
         {
             _noise_enabled = value;
             Godot.Plane old_noise_params = (Godot.Plane)(MaterialOverride as ShaderMaterial).GetShaderParam("noise_params");
-            GD.Print(old_noise_params.GetType());
 
             old_noise_params.D = value ? 1 : 0;
             (MaterialOverride as ShaderMaterial).SetShaderParam("noise_params", old_noise_params);

@@ -7,7 +7,7 @@ namespace Game
     {
         public NetworkPlayerState playerState = new NetworkPlayerState();
 
-        protected const float JUMP_POWER = 20.0f;
+        protected const float JUMP_POWER = 15.0f;
         protected const float JUMP_DURATION = 1f;
         protected const float AIR_SPEED = 6.0f;
 

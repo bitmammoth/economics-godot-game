@@ -18,15 +18,8 @@ namespace Game
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
-            spawner = (ObjectSpawner) GetNode(objectSpawnerPath) ;
+            spawner = (ObjectSpawner) GetNode(objectSpawnerPath);
         }
-
-        //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-        //  public override void _Process(float delta)
-        //  {
-        //      
-        //  }
-
 
         public void CreateLocalPlayer(int id, Vector3 spawnPoint, Vector3 spawnRot, bool inputEnabled = true)
         {
@@ -39,6 +32,8 @@ namespace Game
 
             player.SetPlayerPosition(spawnPoint);
             player.SetPlayerRotation(spawnRot);
+
+            spawner.setInit(true);
         }
 
         public void CreatePuppet(int networkId, uint timestamp, Vector3 pos, Vector3 rot, bool inputEnabled = true)

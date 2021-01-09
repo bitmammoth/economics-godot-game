@@ -58,7 +58,7 @@ namespace Game
                 newValue = fromNode.Value;
 
 
-           // SetPlayerPosition(newValue.origin);
+            // SetPlayerPosition(newValue.origin);
             SetPlayerRotation(newValue.rotation);
 
             var pos = GlobalTransform.origin;
@@ -67,9 +67,6 @@ namespace Game
 
         public static FrameSnapshot Interpolate(FrameSnapshot from, FrameSnapshot to, uint clientTick)
         {
-                        GD.Print("sInterpolate");
-
-
             float t = ((float)(clientTick - from.timestamp)) / (to.timestamp - from.timestamp);
 
             return new FrameSnapshot

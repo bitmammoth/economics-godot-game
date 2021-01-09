@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://utils/server/Server.cs" type="Script" id=1]
+[ext_resource path="res://maps/TestMap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://utils/server/rcon/RconServer.cs" type="Script" id=3]
 [ext_resource path="res://default_env.tres" type="Environment" id=4]
-[ext_resource path="res://level/map.tscn" type="PackedScene" id=5]
 [ext_resource path="res://utils/world/ObjectSpawnerServer.cs" type="Script" id=6]
 
 [node name="server" type="Node"]
@@ -28,7 +28,7 @@ script = ExtResource( 3 )
 [node name="WorldEnvironment" type="WorldEnvironment" parent="world/map_holder"]
 environment = ExtResource( 4 )
 
-[node name="map" parent="world/map_holder" instance=ExtResource( 5 )]
+[node name="map" parent="world/map_holder" instance=ExtResource( 2 )]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="world/map_holder"]
 transform = Transform( 1, 0, 0, 0, 0.782847, 0.622214, 0, -0.622214, 0.782847, 0, 16.4263, 19.3844 )

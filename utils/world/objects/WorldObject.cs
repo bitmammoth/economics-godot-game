@@ -30,7 +30,10 @@ namespace Game
         [Column("rot_z")]
         public float rot_z { get; set; }
 
+        [Column("type")]
         public WorldObjectType type { get; set; }
+
+        [Column("model")]
         public string modelName { get; set; }
 
         public Vector3 GetPosition()

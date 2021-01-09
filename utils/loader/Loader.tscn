@@ -1,12 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://utils/loader/Loader.cs" type="Script" id=3]
 
-[sub_resource type="World" id=1]
+[sub_resource type="Environment" id=1]
+ambient_light_sky_contribution = 0.0
 
 [sub_resource type="World" id=2]
+environment = SubResource( 1 )
 
 [sub_resource type="World" id=3]
+
+[sub_resource type="World" id=4]
 
 [node name="entry" type="Control"]
 anchor_right = 1.0
@@ -35,10 +39,15 @@ __meta__ = {
 [node name="server_viewport" type="Viewport" parent="vbox/vbox_server"]
 size = Vector2( 200, 350 )
 size_override_stretch = true
-world = SubResource( 1 )
+world = SubResource( 2 )
 handle_input_locally = false
 hdr = false
+usage = 3
 render_target_update_mode = 0
+shadow_atlas_quad_0 = 0
+shadow_atlas_quad_1 = 0
+shadow_atlas_quad_2 = 0
+shadow_atlas_quad_3 = 0
 __meta__ = {
 "_editor_description_": ""
 }
@@ -62,10 +71,16 @@ __meta__ = {
 [node name="client_2_viewport" type="Viewport" parent="vbox/vbox_client_2"]
 size = Vector2( 578, 343 )
 size_override_stretch = true
-world = SubResource( 2 )
+world = SubResource( 3 )
 handle_input_locally = false
-msaa = 1
+hdr = false
+usage = 3
 render_target_update_mode = 0
+gui_snap_controls_to_pixels = false
+shadow_atlas_quad_0 = 0
+shadow_atlas_quad_1 = 0
+shadow_atlas_quad_2 = 0
+shadow_atlas_quad_3 = 0
 __meta__ = {
 "_editor_description_": ""
 }
@@ -86,7 +101,7 @@ __meta__ = {
 
 [node name="client_viewport" type="Viewport" parent="vbox/vbox_client"]
 size = Vector2( 1280, 720 )
-world = SubResource( 3 )
+world = SubResource( 4 )
 handle_input_locally = false
 msaa = 2
 render_target_update_mode = 3

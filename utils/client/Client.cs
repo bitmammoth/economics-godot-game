@@ -61,15 +61,15 @@ namespace Game
             charSelector.port = port;
             charSelector.SetToken(accessToken);
             charSelector.GetCharList();
-            
+
             //ConnectToServer();
-            
+
         }
 
         public void onSelectedChar(int charId)
         {
             charSelector.Visible = false;
-            
+
             //transmit selected char to server
             ConnectToServer();
         }
@@ -87,7 +87,7 @@ namespace Game
             }
             catch
             {
-                
+
             }
         }
 
@@ -201,7 +201,6 @@ namespace Game
         [PuppetSync]
         private void startPreAuth()
         {
-            GD.Print("call startPreauth at " + ownNetworkId);
             drawSystemMessage("Start to pre auth with token" + accessToken);
             RpcId(1, "authPlayer", accessToken);
         }
@@ -212,11 +211,11 @@ namespace Game
             drawSystemMessage("Connection lost for reason:" + message);
         }
 
-    
         private void showSystemStats()
         {
             var pos = "";
             var net_out = "";
+            var objects = "";
             if (gameWorld != null && gameWorld.player != null)
             {
                 pos += "x:" + Math.Round(gameWorld.player.GetPlayerPosition().x, 4);
@@ -225,11 +224,17 @@ namespace Game
                 net_out = gameWorld.player.networkStats.getNetOut();
             }
 
+            if (gameWorld != null && gameWorld.spawner != null)
+            {
+                objects += gameWorld.spawner.objectsDrawin;
+                objects += " / ";
+                objects += gameWorld.spawner.totalObjects;
+            }
+
             (GetNode("hud/top/pos") as Label).Text = "Pos: " + pos;
             (GetNode("hud/top/net_out") as Label).Text = "Net out: " + net_out;
-
             (GetNode("hud/top/fps_counter") as Label).Text = "FPS: " + Engine.GetFramesPerSecond();
-            //(GetNode("hud/top/objects") as Label).Text = "Objects: " + GetTree().Root.GetNode("level").GetNode("properties").GetChildCount() + "/" + spow.TotalObjects();
+            (GetNode("hud/top/objects") as Label).Text = "Objects: " + objects;
             (GetNode("hud/top/memory") as Label).Text = "Memory: " + OS.GetStaticMemoryUsage() / 1024 / 1024 + " MB";
             (GetNode("hud/top/video_memory") as Label).Text = "VRAM: " + (Performance.GetMonitor(Performance.Monitor.RenderVideoMemUsed) / 1024 / 1024).ToString() + " MB";
         }

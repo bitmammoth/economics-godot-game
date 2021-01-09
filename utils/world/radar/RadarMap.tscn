@@ -1,0 +1,145 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://maps/world_machine_map Bitmap Output 1025.png" type="Texture" id=1]
+[ext_resource path="res://utils/world/radar/RadarMap.cs" type="Script" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform int blurSize : hint_range(0,20);
+
+void fragment()
+{
+COLOR = textureLod(SCREEN_TEXTURE, SCREEN_UV, float(blurSize)/10.0);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/blurSize = 20
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0, 0, 0, 0.47451 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="World" id=5]
+
+[sub_resource type="Shader" id=6]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color;
+uniform float mixture;
+
+void fragment() 
+{
+    vec4 tex = texture(TEXTURE, UV);
+    COLOR.a = tex.a;
+   // COLOR.rgb = mix(tex.rgb, color.rgb, mixture);
+	COLOR.rgb = mix(tex.rgb, color.rgb, tex.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 6 )
+shader_param/color = Color( 0.184314, 0.184314, 0.184314, 1 )
+shader_param/mixture = 1.0
+
+[sub_resource type="Shader" id=8]
+code = "shader_type canvas_item;
+
+uniform float amt:hint_range(0.0, 1.0);
+
+void fragment() 
+{
+	if (distance(UV, vec2(0.5,0.5)) > amt/2.0) 
+	{
+		COLOR = vec4(0.0);
+	}
+	else 
+	{
+		COLOR = texture(TEXTURE,UV);
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=9]
+shader = SubResource( 8 )
+shader_param/amt = 1.0
+
+[sub_resource type="Gradient" id=10]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0.976471, 0.878431, 0.0705882, 0.917647 )
+
+[sub_resource type="GradientTexture" id=11]
+gradient = SubResource( 10 )
+width = 50
+
+[node name="radar_map" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+myPosPath = NodePath("radar/my_position")
+
+[node name="blur" type="Sprite" parent="."]
+material = SubResource( 2 )
+position = Vector2( -65.5062, -72697.1 )
+scale = Vector2( 0.629169, 726.979 )
+texture = SubResource( 4 )
+centered = false
+offset = Vector2( 100, 100 )
+
+[node name="radar" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ViewportContainer" type="ViewportContainer" parent="radar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="radar/ViewportContainer"]
+size = Vector2( 1280, 720 )
+world = SubResource( 5 )
+transparent_bg = true
+handle_input_locally = false
+hdr = false
+render_target_update_mode = 3
+
+[node name="Spatial" type="Spatial" parent="radar/ViewportContainer/Viewport"]
+
+[node name="3d_camera" type="Camera" parent="radar/ViewportContainer/Viewport/Spatial"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 3080, 4450, 3080 )
+far = 5000.0
+
+[node name="TextureRect" type="TextureRect" parent="radar"]
+material = SubResource( 7 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="my_position" type="Sprite" parent="radar"]
+light_mask = -2147483647
+material = SubResource( 9 )
+position = Vector2( 365.186, 205.014 )
+scale = Vector2( 0.354354, 17.7177 )
+texture = SubResource( 11 )

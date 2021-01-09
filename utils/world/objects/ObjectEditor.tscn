@@ -1,0 +1,102 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://utils/ui/layout/theme.tres" type="Theme" id=1]
+
+[sub_resource type="ProceduralSky" id=1]
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+
+[sub_resource type="World" id=3]
+environment = SubResource( 2 )
+
+[sub_resource type="ProceduralSky" id=4]
+
+[sub_resource type="Environment" id=5]
+background_mode = 2
+background_sky = SubResource( 4 )
+
+[node name="object_editor" type="CanvasLayer"]
+
+[node name="dialog" type="WindowDialog" parent="."]
+margin_top = 80.0
+margin_right = 612.0
+margin_bottom = 400.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tabs" type="TabContainer" parent="dialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="HBoxContainer" parent="dialog/Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 30.0
+margin_right = -5.0
+margin_bottom = -5.0
+
+[node name="objects" type="VBoxContainer" parent="dialog/Tabs/VBoxContainer"]
+margin_right = 299.0
+margin_bottom = 285.0
+size_flags_horizontal = 3
+custom_constants/separation = 10
+
+[node name="object_search_box" type="LineEdit" parent="dialog/Tabs/VBoxContainer/objects"]
+margin_right = 299.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+
+[node name="object_list" type="ItemList" parent="dialog/Tabs/VBoxContainer/objects"]
+margin_top = 33.0
+margin_right = 299.0
+margin_bottom = 252.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="dialog/Tabs/VBoxContainer/objects"]
+margin_top = 262.0
+margin_right = 299.0
+margin_bottom = 285.0
+size_flags_horizontal = 3
+
+[node name="add_object" type="Button" parent="dialog/Tabs/VBoxContainer/objects/GridContainer"]
+margin_right = 70.0
+margin_bottom = 23.0
+text = "Add object"
+
+[node name="ViewportContainer" type="ViewportContainer" parent="dialog/Tabs/VBoxContainer"]
+margin_left = 303.0
+margin_right = 602.0
+margin_bottom = 285.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="camera_viewport" type="Viewport" parent="dialog/Tabs/VBoxContainer/ViewportContainer"]
+size = Vector2( 299, 285 )
+own_world = true
+world = SubResource( 3 )
+handle_input_locally = false
+hdr = false
+render_target_update_mode = 0
+shadow_atlas_quad_0 = 0
+shadow_atlas_quad_1 = 0
+shadow_atlas_quad_2 = 0
+shadow_atlas_quad_3 = 0
+
+[node name="Camera" type="Camera" parent="dialog/Tabs/VBoxContainer/ViewportContainer/camera_viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 10 )
+environment = SubResource( 5 )
+fov = 90.0
+far = 500.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="dialog/Tabs/VBoxContainer/ViewportContainer/camera_viewport"]

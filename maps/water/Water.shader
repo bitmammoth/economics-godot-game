@@ -83,6 +83,6 @@ void fragment(){
 }
 
 void vertex(){
-	/*lowp float nrm = mix(mix(2.0*texture(ripple,UV*tilling+TIME/1000.0).rgb-1.0,2.0*texture(ripple,rotate(UV,1.0)*tilling-TIME/1000.0).rgb-1.0,0.5),2.0*texture(ripple,0.01*UV*tilling).rgb-1.0,0.5).z-rippleFactor*.8;
-	VERTEX = vec3(VERTEX.x,VERTEX.y+rippleFactor*(nrm)*0.2,VERTEX.z);*/
+	lowp float nrm = mix(mix(2.0*texture(ripple,UV*tilling+TIME/1000.0).rgb-1.0,2.0*texture(ripple,rotate(UV,1.0)*tilling-TIME/1000.0).rgb-1.0,0.5),2.0*texture(ripple,0.01*UV*tilling).rgb-1.0,0.5).z-rippleFactor*.8;
+	VERTEX = vec3(VERTEX.x,VERTEX.y+rippleFactor*(nrm)*0.2,VERTEX.z);
 }
