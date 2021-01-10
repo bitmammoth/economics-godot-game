@@ -22,6 +22,8 @@ namespace Game
 
         public bool inputEnabled = true;
 
+        private ServerVersion serverVersion = null;
+
         AcceptDialog customConnectDialog = null;
         ServerPreAuthDialog serverPareAuthDialog = null;
         CharacterSelector charSelector = null;
@@ -56,14 +58,12 @@ namespace Game
         public void onLoginSuccess(string _token)
         {
             accessToken = _token;
+            charSelector.setWelcomeText("Welcome to " + serverVersion.name);
             charSelector.Visible = true;
             charSelector.hostname = hostname;
             charSelector.port = port;
             charSelector.SetToken(accessToken);
             charSelector.GetCharList();
-
-            //ConnectToServer();
-
         }
 
         public void onSelectedChar(int charId)
@@ -96,13 +96,13 @@ namespace Game
             try
             {
                 var restClient = new RestClient.Net.Client(new RestClient.Net.NewtonsoftSerializationAdapter(), new Uri("http://" + hostname + ":" + port + "/api/hello"));
-                ServerVersion response = await restClient.GetAsync<ServerVersion>();
-                drawSystemMessage("Server version: v" + response.version);
+                serverVersion = await restClient.GetAsync<ServerVersion>();
+                drawSystemMessage("Server version: v" + serverVersion.version);
 
                 serverPareAuthDialog.hostname = hostname;
                 serverPareAuthDialog.port = port;
-                serverPareAuthDialog.WindowTitle = "Auth on " + response.name;
-                serverPareAuthDialog.PopupCentered();
+                serverPareAuthDialog.setWelcomeMessage( "Auth on " + serverVersion.name);
+                serverPareAuthDialog.Visible = true;
             }
             catch (Exception e)
             {

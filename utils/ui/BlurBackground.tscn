@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform int blurSize : hint_range(0,20);
+
+void fragment()
+{
+COLOR = textureLod(SCREEN_TEXTURE, SCREEN_UV, float(blurSize)/10.0);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/blurSize = 20
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0, 0, 0, 0.47451 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[node name="Sprite" type="Sprite"]
+material = SubResource( 2 )
+position = Vector2( -65.5062, -72697.1 )
+scale = Vector2( 0.629169, 726.979 )
+texture = SubResource( 4 )
+centered = false
+offset = Vector2( 100, 100 )
+__meta__ = {
+"_editor_description_": ""
+}

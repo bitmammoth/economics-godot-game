@@ -2,7 +2,7 @@ using Godot;
 using System;
 using RestClient.Net;
 
-public class ServerPreAuthDialog : WindowDialog
+public class ServerPreAuthDialog : Control
 {
     public string hostname = "localhost";
 
@@ -96,6 +96,10 @@ public class ServerPreAuthDialog : WindowDialog
     public void onServerCreateAbort()
     {
         Hide();
+    }
+    public void setWelcomeMessage(string message)
+    {
+        (GetNode("welcome_text") as Label).Text = message;
     }
     public void onServerCreateAccount()
     {

@@ -151,6 +151,10 @@ namespace Game
                 }
             }
         }
+        public void doCatwalk()
+        {
+             animation_state_machine.Travel("catwalk");
+        }
         public void ProcessAnimation(NetworkPlayerState state, PlayerInput movementState, float delta)
         {
             animTree.Set("parameters/blend_tree/locomotion/idle_walk_run/blend_position", movementState.velocity.Length());

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using RestClient.Net;
 using RestClient.Net.Abstractions;
 using Game;
+using System.Linq;
 
 public class CharacterSelector : Control
 {
@@ -43,28 +44,56 @@ public class CharacterSelector : Control
         charEditor = GetNode(charEditorPath) as CharacterEditor;
 
         charEditor.Connect("onCharacterSave", this, "storeCharacter");
+    }
 
-        GD.Print("ready up");
+    public void setWelcomeText(string message)
+    {
+        (FindNode("welcome_text") as Label).Text = message;
     }
     private void UpdateCharList()
     {
-        foreach (CharacterSelectView _child in FindNode("char_holder").GetChildren())
+
+        foreach (CharacterMenuItem _child in FindNode("char_list").GetChildren())
         {
             FindNode("char_holder").RemoveChild(_child);
+            FindNode("char_list").RemoveChild(_child);
         }
 
         foreach (var item in charList)
         {
+            var menuItemScene = (PackedScene)ResourceLoader.Load("res://utils/character/selector/CharacterMenuItem.tscn");
+            CharacterMenuItem character = (CharacterMenuItem)menuItemScene.Instance();
+            character.Name = item.Id.ToString();
+            FindNode("char_list").AddChild(character);
+            character.setCharacter(item);
+            character.Connect("characterSelected", this, "onSelectChar");
+        }
+    }
+
+    public void onSelectChar(int charId)
+    {
+        GD.Print("selected " + charId);
+
+        var character = charList.FirstOrDefault((tf) => tf.Id == charId);
+        if (character != null)
+        {
+            foreach (CharacterSelectView _child in FindNode("char_holder").GetChildren())
+            {
+                if (_child.character != null && _child.character.Id == charId)
+                    return;
+
+                FindNode("char_holder").RemoveChild(_child);
+            }
 
             var networkCharScene = (PackedScene)ResourceLoader.Load("res://utils/character/selector/CharacterSelectView.tscn");
-            CharacterSelectView character = (CharacterSelectView)networkCharScene.Instance();
-            character.Name = item.Id.ToString();
-            FindNode("char_holder").AddChild(character);
-            character.SetCharacter(item);
+            CharacterSelectView charScene = (CharacterSelectView)networkCharScene.Instance();
+            charScene.Name = character.Id.ToString();
+            FindNode("char_holder").AddChild(charScene);
+            charScene.SetCharacter(character);
 
-            character.Connect("onDeleteCharacter", this, "CharacterDeleteEvent");
-            character.Connect("onEditCharacter", this, "CharacterEditEvent");
-            character.Connect("onLaunchCharacter", this, "CharacterLaunch");
+            charScene.Connect("onDeleteCharacter", this, "CharacterDeleteEvent");
+            charScene.Connect("onEditCharacter", this, "CharacterEditEvent");
+            charScene.Connect("onLaunchCharacter", this, "CharacterLaunch");
         }
     }
 
@@ -86,12 +115,12 @@ public class CharacterSelector : Control
 
     private void CharacterLaunch(int id)
     {
-       EmitSignal(nameof(onSelect), id);
+        EmitSignal(nameof(onSelect), id);
     }
 
     private void storeCharacter(int id, string body)
     {
-       //todo store character
+        //todo store character
     }
 
     private async void deleteCharacterRequest(CharacterSelectView node, int id)
@@ -105,8 +134,12 @@ public class CharacterSelector : Control
 
             if (response.success == true)
             {
-                GD.Print("Reponose succes");
-                charHolder.RemoveChild(node);
+                var _charNode = charHolder.GetNodeOrNull(id.ToString());
+                if (_charNode != null)
+                {
+                    charHolder.RemoveChild(node);
+                }
+                
                 charList.RemoveAll((tf) => tf.Id == id);
             }
             else
@@ -145,6 +178,9 @@ public class CharacterSelector : Control
             if (response.characters != null)
             {
                 charList = response.characters;
+                if (charList.Count > 0)
+                    onSelectChar(charList[0].Id);
+
                 UpdateCharList();
             }
 
@@ -176,6 +212,7 @@ public class CharacterSelector : Control
         createDialog.port = port;
 
         UpdateCharList();
+        onSelectChar(id);
     }
 
 
