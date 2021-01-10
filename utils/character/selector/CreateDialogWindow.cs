@@ -27,6 +27,7 @@ public class CreateDialogWindow : WindowDialog
 
         FindNode("cancel_confirm_button").Connect("pressed", this, "onPlayerCanceled");
         FindNode("create_confirm_button").Connect("pressed", this, "onPlayerCreationConfirmed");
+        
     }
 
     public void onShow()

@@ -33,6 +33,8 @@ namespace Game
 
         public override void _Process(float delta)
         {
+            base._Process(delta);
+
             if (!initalize)
                 return;
 
@@ -40,7 +42,6 @@ namespace Game
             {
                 if (!onUpdate)
                     RpcUnreliableId(1, "GetObjectList", (GetParent() as World).player.GetPlayerPosition(), ObjectDistance);
-
                 syncedTime = 0.0f;
             }
 
@@ -60,12 +61,12 @@ namespace Game
 
             onUpdate = true;
             var objects = Networking.NetworkCompressor.Decompress<List<WorldObject>>(json);
-            ThreadedCreation(objects);
+            CreateObjectsFromList(objects);
             totalObjects = _totalObjects;
             onUpdate = false;
         }
 
-        private void ThreadedCreation(List<WorldObject> _list)
+        private void CreateObjectsFromList(List<WorldObject> _list)
         {
             var ids = _list.Select(c => c.Id.ToString()).ToList();
             _spawnQueue.Clear();

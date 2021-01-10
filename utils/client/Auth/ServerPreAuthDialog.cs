@@ -11,8 +11,6 @@ public class ServerPreAuthDialog : Control
     [Signal]
     public delegate void onLogin(string token);
 
-   
-
     public override void _Ready()
     {
 
@@ -22,16 +20,10 @@ public class ServerPreAuthDialog : Control
         (FindNode("preauth_cancel_button") as Button).Connect("pressed", this, "onServerCreateAbort");
         (FindNode("preauth_login_cancel_button") as Button).Connect("pressed", this, "onServerCreateAbort");
         
-        Connect("about_to_show", this, "onShow");
-
-        (FindNode("server_preauth_tabs") as TabContainer).SetTabTitle(0, "Login");
-        (FindNode("server_preauth_tabs") as TabContainer).SetTabTitle(1, "Register");
-    }
-
-    private void onShow()
-    {
         (FindNode("register_error_message") as Label).Visible = false;
         (FindNode("login_error_message") as Label).Visible = false;
+        (FindNode("server_preauth_tabs") as TabContainer).SetTabTitle(0, "Login");
+        (FindNode("server_preauth_tabs") as TabContainer).SetTabTitle(1, "Register");
     }
 
     private async void doLogin()

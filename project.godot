@@ -139,6 +139,7 @@ editor={
 
 [physics]
 
+3d/active_soft_world=false
 2d/default_gravity=90
 
 [rendering]

@@ -4,10 +4,11 @@
 [ext_resource path="res://utils/player/NetworkPlayerChar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://utils/player/crosshair/crosshair.tscn" type="PackedScene" id=3]
 [ext_resource path="res://utils/world/objects/ObjectEditor.tscn" type="PackedScene" id=4]
-[ext_resource path="res://utils/world/objects/ObjectEditor.cs" type="Script" id=5]
 [ext_resource path="res://utils/world/radar/RadarMap.tscn" type="PackedScene" id=6]
+[ext_resource path="res://utils/ui/layout/hud/PlayerProgressBG.tres" type="StyleBox" id=7]
 
 [sub_resource type="BoxShape" id=1]
+margin = 0.005
 extents = Vector3( 0.276, 0.206, 0.7 )
 
 [sub_resource type="CubeMesh" id=2]
@@ -20,6 +21,7 @@ albedo_color = Color( 0.0313726, 1, 0, 0.403922 )
 albedo_color = Color( 1, 0, 0, 0.388235 )
 
 [node name="player" type="KinematicBody"]
+collision/safe_margin = 0.005
 script = ExtResource( 1 )
 rayGroundPath = NodePath("shape/rays/ground")
 shapePath = NodePath("shape")
@@ -99,8 +101,80 @@ visible = false
 
 [node name="crosshair" parent="hud" instance=ExtResource( 3 )]
 
+[node name="Control" type="MarginContainer" parent="hud"]
+anchor_left = 0.862
+anchor_top = 0.033
+anchor_right = 0.991
+anchor_bottom = 0.051
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="hud/Control"]
+margin_right = 165.0
+margin_bottom = 50.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="hud/Control/VBoxContainer"]
+margin_right = 165.0
+margin_bottom = 50.0
+columns = 2
+
+[node name="Label3" type="Label" parent="hud/Control/VBoxContainer/GridContainer"]
+margin_right = 46.0
+margin_bottom = 14.0
+text = "HP"
+
+[node name="ProgressBar3" type="ProgressBar" parent="hud/Control/VBoxContainer/GridContainer"]
+margin_left = 50.0
+margin_right = 165.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+custom_styles/bg = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="hud/Control/VBoxContainer/GridContainer"]
+margin_top = 18.0
+margin_right = 46.0
+margin_bottom = 32.0
+text = "Thirst"
+
+[node name="ProgressBar2" type="ProgressBar" parent="hud/Control/VBoxContainer/GridContainer"]
+margin_left = 50.0
+margin_top = 18.0
+margin_right = 165.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+custom_styles/bg = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="hud/Control/VBoxContainer/GridContainer"]
+margin_top = 36.0
+margin_right = 46.0
+margin_bottom = 50.0
+text = "Hunger"
+
+[node name="ProgressBar" type="ProgressBar" parent="hud/Control/VBoxContainer/GridContainer"]
+margin_left = 50.0
+margin_top = 36.0
+margin_right = 165.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+custom_styles/bg = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="object_editor" parent="." instance=ExtResource( 4 )]
-script = ExtResource( 5 )
 
 [node name="client_side" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0 )

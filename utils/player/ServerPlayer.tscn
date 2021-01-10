@@ -4,9 +4,11 @@
 [ext_resource path="res://utils/player/ServerPlayer.cs" type="Script" id=2]
 
 [sub_resource type="BoxShape" id=1]
+margin = 0.005
 extents = Vector3( 0.276, 0.206, 0.7 )
 
 [node name="server_player" type="KinematicBody"]
+collision/safe_margin = 0.005
 script = ExtResource( 2 )
 rayGroundPath = NodePath("shape/rays/ground")
 shapePath = NodePath("shape")

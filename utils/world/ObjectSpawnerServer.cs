@@ -50,7 +50,6 @@ namespace Game
             obj.SetRotation(rot);
 
             Server.database.Insert(obj);
-
             _spawnQueue.Enqueue(obj);
 
             var objectJson = Networking.NetworkCompressor.Compress(obj);

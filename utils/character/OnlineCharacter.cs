@@ -30,6 +30,18 @@ public class OnlineCharacter
     [Column("body")]
     public string body { get; set; }
 
+    [Column("hp")]
+    public float hp { get; set; }
+
+    [Column("hunger")]
+    public float hunger { get; set; }
+
+    [Column("thirst")]
+    public float thirst { get; set; }
+
+    [Column("bladder")]
+    public float bladder { get; set; }
+
     public string getFullname()
     {
         return firstname + " " + lastname;

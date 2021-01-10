@@ -36,6 +36,7 @@ namespace Game
             spawnThread.Start();
         }
 
+
         public void queueSyncThread()
         {
             while (spawnThreadRunning)
@@ -61,19 +62,13 @@ namespace Game
         {
             var node = new WorldObjectNode();
             node.worldObject = spawn;
+            node.Name = spawn.Id.ToString();
+            CallDeferred("add_child", node);
+
+
             bool result = node.LoadObjectByFilePath();
             if (result)
             {
-                node.Name = spawn.Id.ToString();
-                AddChild(node);
-
-                var gt = node.GlobalTransform;
-                gt.origin = spawn.GetPosition();
-                node.GlobalTransform = gt;
-                node.Rotation = spawn.GetRotation();
-                //node.origPos = pos;
-                node.Visible = true;
-
                 return node;
             }
             else

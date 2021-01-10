@@ -157,6 +157,10 @@ namespace Game.Rest
                     firstname = firstname,
                     lastname = lastname,
                     isMale = data.isMale,
+                    hunger = 0,
+                    thirst = 0,
+                    bladder = 0,
+                    hp = 100,
                     birthday = birthdayDateObj.ToString("yyyy-MM-dd"),
                     AuthId = user.Id,
                 };

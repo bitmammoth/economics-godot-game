@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://utils/character/editor/CharacterEditor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://utils/character/selector/CreateDialogWindow.cs" type="Script" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://utils/ui/layout/fonts/Roboto-Bold.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://utils/character/selector/theme/CharacterSelectorAddButon.tres" type="StyleBox" id=6]
 [ext_resource path="res://utils/character/selector/CharacterSelectView.tscn" type="PackedScene" id=7]
-[ext_resource path="res://utils/character/selector/CharacterMenuItem.tscn" type="PackedScene" id=8]
 [ext_resource path="res://utils/character/selector/theme/CharacterSelectorAddButonHover.tres" type="StyleBox" id=10]
 [ext_resource path="res://utils/ui/BlurBackground.tscn" type="PackedScene" id=11]
 [ext_resource path="res://utils/ui/welcomeText.tscn" type="PackedScene" id=12]
@@ -88,27 +87,20 @@ scroll_horizontal_enabled = false
 
 [node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer2/ScrollContainer"]
 margin_right = 256.0
-margin_bottom = 98.0
+margin_bottom = 51.0
 size_flags_horizontal = 3
 
 [node name="char_list" type="VBoxContainer" parent="VBoxContainer2/ScrollContainer/HBoxContainer"]
 margin_right = 256.0
-margin_bottom = 47.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="char1" parent="VBoxContainer2/ScrollContainer/HBoxContainer/char_list" instance=ExtResource( 8 )]
-anchor_right = 0.0
-margin_right = 256.0
-margin_bottom = 47.0
-size_flags_horizontal = 1
-
 [node name="create_button" type="Button" parent="VBoxContainer2/ScrollContainer/HBoxContainer"]
-margin_top = 51.0
+margin_top = 4.0
 margin_right = 256.0
-margin_bottom = 98.0
+margin_bottom = 51.0
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 10 )
 custom_styles/pressed = ExtResource( 10 )

@@ -206,7 +206,6 @@ public class CharacterSelector : Control
 
     public void OnPlayerCreated(int id, string fristname, string lastname, string birthday, bool isMale)
     {
-        GD.Print("On created");
         charList.Add(new OnlineCharacter { Id = id, firstname = fristname, lastname = lastname, birthday = birthday, isMale = isMale });
         createDialog.hostname = hostname;
         createDialog.port = port;
@@ -214,6 +213,4 @@ public class CharacterSelector : Control
         UpdateCharList();
         onSelectChar(id);
     }
-
-
 }

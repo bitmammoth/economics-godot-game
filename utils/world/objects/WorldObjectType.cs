@@ -8,7 +8,8 @@ namespace Game
     {
 
         PROPERTY,
-        MARKER
+        MARKER,
+        VEHICLE
     }
 }
 

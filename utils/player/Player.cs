@@ -18,7 +18,10 @@ namespace Game
         public bool inputEnabled = true;
 
         [Export]
-        public float InputPredictionMaxSize = 0.05f;
+        public float InputPredictionMaxSize = 0.1f;
+
+        [Export]
+        public bool posCorrection = true;
 
         [Export]
         public NodePath rayDragPath;
@@ -66,7 +69,7 @@ namespace Game
 
         private bool reProcess = false;
 
-        public bool  onFocusing = false;
+        public bool onFocusing = false;
 
 
         public List<FrameSnapshot> snapshots = new List<FrameSnapshot>();
@@ -168,7 +171,9 @@ namespace Game
         public void OnServerSnapshot(string correctedSnapshotJson)
         {
 
-            if (reProcess == true)
+            networkStats.AddInPackage(correctedSnapshotJson);
+            
+            if (reProcess == true || !posCorrection)
                 return;
 
             var correctedSnapshot = Game.Networking.NetworkCompressor.Decompress<FrameSnapshot>(correctedSnapshotJson);
@@ -195,7 +200,7 @@ namespace Game
                 if ((orig1 - orig2).Length() > InputPredictionMaxSize)
                 {
 
-                    GD.Print("[CLIENT] Pos correction for " + orig1 + " - " + orig2);
+                    GD.Print("[CLIENT] Pos correction for " + orig1 + " - " + orig2 + "  by " + (orig1 - orig2).Length());
 
                     inputQueue.Clear();
                     reProcess = true;
@@ -268,20 +273,6 @@ namespace Game
                 objectEditor.Show();
             }
 
-
-            // if (Input.IsActionJustReleased("save_objects") && Input.GetMouseMode() != Input.MouseMode.Visible)
-            //   spow.SaveObjects(GetTree().Root.GetNode("level").GetNode("properties"));
-            /*
-            if (Input.IsActionJustPressed("enter_menu") && Input.GetMouseMode() != Input.MouseMode.Visible)
-            {
-                var coll = rayVehicle.GetCollider();
-                if (coll != null)
-                    menu.Open(GetNode("hud").GetNode("menu_popup") as WindowDialog, this, rayVehicle.GetCollider() as Node);
-                else
-                    menu.Open(GetNode("hud").GetNode("menu_popup") as WindowDialog, this, null);
-            }
-*/
-
             movementInput.movement_direction = movementInput.movement_direction.Normalized();
 
             movementInput.cam_direction += -cam_xform.basis.z * movementInput.movement_direction.y;
@@ -347,6 +338,7 @@ namespace Game
                 arr.Add(this);
 
                 Godot.Collections.Dictionary ray_result = space_state.IntersectRay(ray_from, ray_to, arr);
+                /*
                 if (ray_result != null && ray_result.Contains("collider"))
                 {
                     var body = ray_result["collider"];
@@ -358,6 +350,7 @@ namespace Game
                         }
                     }
                 }
+                */
             }
 
             return movementInput;

@@ -80,6 +80,9 @@ namespace Game
             InitWheel("FR");
             InitWheel("BL");
             InitWheel("BR");
+
+
+
         }
 
 
@@ -92,9 +95,12 @@ namespace Game
             fl_wheel.skid = fl_wheel.node.GetNode("skid") as AudioStreamPlayer3D;
             wheels.Add(name, fl_wheel);
         }
-
+  
         public override void _PhysicsProcess(float delta)
         {
+
+            return;
+
             if (driver != null)
                 ProcessInput(delta);
             else

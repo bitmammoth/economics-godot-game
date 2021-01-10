@@ -4,9 +4,11 @@
 [ext_resource path="res://utils/player/Puppet.cs" type="Script" id=2]
 
 [sub_resource type="BoxShape" id=1]
+margin = 0.005
 extents = Vector3( 0.275512, 0.206004, 0.707283 )
 
 [node name="server_player" type="KinematicBody"]
+collision/safe_margin = 0.005
 script = ExtResource( 2 )
 rayGroundPath = NodePath("shape/rays/ground")
 shapePath = NodePath("shape")

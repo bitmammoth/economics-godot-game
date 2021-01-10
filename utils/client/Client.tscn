@@ -24,32 +24,31 @@ border_color = Color( 0.0470588, 0.470588, 0.513726, 1 )
 
 [sub_resource type="ShaderMaterial" id=2]
 
-[sub_resource type="StreamTexture" id=8]
+[sub_resource type="StreamTexture" id=3]
 flags = 4
-load_path = "res://.import/jaber-lounes-lost-island.jpg-c5a30a6b4c8e7c4f38b079e4c2654053.stex"
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 38
 use_mipmaps = true
 use_filter = true
 extra_spacing_char = 1
 font_data = ExtResource( 7 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=5]
 content_margin_left = 0.0
 content_margin_right = 0.0
 content_margin_top = 50.0
 content_margin_bottom = 0.0
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 
-[sub_resource type="StyleBoxEmpty" id=5]
+[sub_resource type="StyleBoxEmpty" id=6]
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=7]
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=8]
 size = 12
 font_data = ExtResource( 6 )
 
@@ -94,7 +93,7 @@ modulate = Color( 1, 1, 1, 0.74902 )
 self_modulate = Color( 0.0588235, 0.0588235, 0.0588235, 0.392157 )
 material = SubResource( 2 )
 scale = Vector2( 0.666503, 0.666502 )
-texture = SubResource( 8 )
+texture = SubResource( 3 )
 centered = false
 
 [node name="HBoxContainer" type="VBoxContainer" parent="hud/menu/Panel"]
@@ -108,7 +107,7 @@ size_flags_vertical = 3
 [node name="Label" type="Label" parent="hud/menu/Panel/HBoxContainer"]
 margin_right = 251.0
 margin_bottom = 46.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "ECONOMICS"
 
 [node name="MarginContainer" type="PanelContainer" parent="hud/menu/Panel/HBoxContainer"]
@@ -117,7 +116,7 @@ margin_right = 251.0
 margin_bottom = 620.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 5 )
 
 [node name="ItemList" type="VBoxContainer" parent="hud/menu/Panel/HBoxContainer/MarginContainer"]
 margin_top = 50.0
@@ -143,9 +142,9 @@ margin_bottom = 58.0
 custom_styles/hover = ExtResource( 15 )
 custom_styles/pressed = ExtResource( 15 )
 custom_styles/focus = ExtResource( 15 )
-custom_styles/disabled = SubResource( 5 )
+custom_styles/disabled = SubResource( 6 )
 custom_styles/normal = ExtResource( 14 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 text = "Connect to server"
@@ -161,9 +160,9 @@ margin_bottom = 102.0
 custom_styles/hover = ExtResource( 15 )
 custom_styles/pressed = ExtResource( 15 )
 custom_styles/focus = ExtResource( 15 )
-custom_styles/disabled = SubResource( 5 )
+custom_styles/disabled = SubResource( 6 )
 custom_styles/normal = ExtResource( 14 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 text = "Exit game"
@@ -285,14 +284,14 @@ __meta__ = {
 [node name="message" type="Label" parent="hud/top"]
 margin_top = 8.0
 margin_bottom = 25.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 
-[node name="net_out" type="Label" parent="hud/top"]
+[node name="net" type="Label" parent="hud/top"]
 margin_left = 10.0
 margin_top = 8.0
 margin_right = 10.0
 margin_bottom = 25.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -302,7 +301,7 @@ margin_left = 20.0
 margin_top = 8.0
 margin_right = 20.0
 margin_bottom = 25.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -312,7 +311,7 @@ margin_left = 30.0
 margin_top = 8.0
 margin_right = 30.0
 margin_bottom = 25.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -322,7 +321,7 @@ margin_left = 40.0
 margin_top = 8.0
 margin_right = 40.0
 margin_bottom = 25.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -332,7 +331,7 @@ margin_left = 50.0
 margin_top = 8.0
 margin_right = 50.0
 margin_bottom = 25.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -342,7 +341,7 @@ margin_left = 60.0
 margin_top = 8.0
 margin_right = 60.0
 margin_bottom = 25.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }

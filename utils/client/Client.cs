@@ -176,7 +176,6 @@ namespace Game
             {
                 gameWorld.CreatePuppet(item.playerId, item.timestamp, item.pos, item.rot);
             }
-
         }
 
         [Puppet]
@@ -215,13 +214,17 @@ namespace Game
         {
             var pos = "";
             var net_out = "";
+            var net_in = "";
             var objects = "";
+
             if (gameWorld != null && gameWorld.player != null)
             {
                 pos += "x:" + Math.Round(gameWorld.player.GetPlayerPosition().x, 4);
                 pos += ", y:" + Math.Round(gameWorld.player.GetPlayerPosition().y, 4);
                 pos += ", z:" + Math.Round(gameWorld.player.GetPlayerPosition().z, 4);
+
                 net_out = gameWorld.player.networkStats.getNetOut();
+                net_in = gameWorld.player.networkStats.getNetIn();
             }
 
             if (gameWorld != null && gameWorld.spawner != null)
@@ -232,7 +235,7 @@ namespace Game
             }
 
             (GetNode("hud/top/pos") as Label).Text = "Pos: " + pos;
-            (GetNode("hud/top/net_out") as Label).Text = "Net out: " + net_out;
+            (GetNode("hud/top/net") as Label).Text = "Net in / out: "  + net_in + " / "+ net_out;
             (GetNode("hud/top/fps_counter") as Label).Text = "FPS: " + Engine.GetFramesPerSecond();
             (GetNode("hud/top/objects") as Label).Text = "Objects: " + objects;
             (GetNode("hud/top/memory") as Label).Text = "Memory: " + OS.GetStaticMemoryUsage() / 1024 / 1024 + " MB";

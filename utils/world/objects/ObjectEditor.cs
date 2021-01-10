@@ -9,6 +9,7 @@ namespace Game
     public class ObjectEditor : CanvasLayer
     {
         private ItemList objectList = null;
+        private ItemList vehicleList = null;
         private WindowDialog dialog = null;
 
         private Game.WorldObjectNode newWorldObject = null;
@@ -20,8 +21,10 @@ namespace Game
         private float rotationMultiplier = 1.0f;
 
         private List<string> tempItemList = new List<string>();
+        private List<string> tempVehicleList = new List<string>();
 
         private string currentObjectName = null;
+        private string currentVehicleName = null;
 
         public override void _Ready()
         {
@@ -32,10 +35,16 @@ namespace Game
             dialog.Connect("popup_hide", this, "onClose");
             dialog.GetCloseButton().Connect("pressed", this, "onClose");
             dialog.FindNode("add_object").Connect("pressed", this, "addObject");
+            dialog.FindNode("add_vehicle").Connect("pressed", this, "addVehicle");
 
 
             objectList = dialog.FindNode("object_list") as ItemList;
             objectList.Connect("item_selected", this, "onObjectSelected");
+
+            vehicleList = dialog.FindNode("vehicle_list") as ItemList;
+            vehicleList.Connect("item_selected", this, "onVehicleSelected");
+
+            (dialog.FindNode("vehicle_search_box") as LineEdit).Connect("text_changed", this, "onVehicleSearch");
             (dialog.FindNode("object_search_box") as LineEdit).Connect("text_changed", this, "onObjectSearch");
 
             tempItemList = scanDir("res://objects/");
@@ -45,8 +54,34 @@ namespace Game
             {
                 objectList.AddItem(item.Replace("res://objects/", "").TrimStart('/'));
             }
+
+            tempVehicleList = scanDir("res://vehicles/");
+            tempVehicleList.Sort();
+
+            foreach (var item in tempVehicleList)
+            {
+                vehicleList.AddItem(item.Replace("res://vehicles/", "").TrimStart('/'));
+            }
         }
 
+        public void onVehicleSearch(string search)
+        {
+            vehicleList.Clear();
+            if (string.IsNullOrEmpty(search))
+            {
+                foreach (var item in tempVehicleList)
+                {
+                    vehicleList.AddItem(item.Replace("res://vehicles/", "").TrimStart('/'));
+                }
+            }
+            else
+            {
+                foreach (var item in tempItemList.Where(tf => tf.ToLower().Contains(search.ToLower())))
+                {
+                    vehicleList.AddItem(item.Replace("res://vehicles/", "").TrimStart('/'));
+                }
+            }
+        }
         public void onObjectSearch(string search)
         {
             objectList.Clear();
@@ -71,10 +106,47 @@ namespace Game
 
             if (currentObjectName != item)
             {
-                showObject(item);
+                var thread = new System.Threading.Thread(new ThreadStart(() => showObject(item)));
+                thread.Start();
+
                 currentObjectName = item;
             }
         }
+        public void onVehicleSelected(int selected)
+        {
+            var item = vehicleList.GetItemText(selected);
+
+            if (currentVehicleName != item)
+            {
+                var thread = new System.Threading.Thread(new ThreadStart(() => showVehicle(item)));
+                thread.Start();
+
+                currentVehicleName = item;
+            }
+        }
+
+        private void showVehicle(string name)
+        {
+            var oldObject = FindNode("car_camera_viewport").GetNodeOrNull("vehicle_holder");
+            if (oldObject != null)
+                oldObject.QueueFree();
+
+            if (!ResourceLoader.Exists("res://vehicles/" + name + ".tscn"))
+            {
+                GD.PrintErr("[Spawner] Cant find: " + name);
+            }
+            else
+            {
+                var nodeScene = (PackedScene)ResourceLoader.Load("res://vehicles/" + name + ".tscn");
+                var spat = (Vehicle)nodeScene.Instance();
+                spat.Name = "vehicle_holder";
+                spat.GravityScale = 0;
+                
+                FindNode("car_camera_viewport").CallDeferred("add_child", spat);
+            }
+
+        }
+
         private void showObject(string name)
         {
             var oldObject = FindNode("camera_viewport").GetNodeOrNull("object_holder");
@@ -85,12 +157,29 @@ namespace Game
             {
                 GD.PrintErr("[Spawner] Cant find: " + name);
             }
-
-            var nodeScene = (PackedScene)ResourceLoader.Load("res://objects/" + name + ".tscn");
-            var spat = (Spatial)nodeScene.Instance();
-            spat.Name = "object_holder";
-            FindNode("camera_viewport").AddChild(spat);
+            else
+            {
+                var nodeScene = (PackedScene)ResourceLoader.Load("res://objects/" + name + ".tscn");
+                var spat = (Spatial)nodeScene.Instance();
+                spat.Name = "object_holder";
+                FindNode("camera_viewport").CallDeferred("add_child", spat);
+            }
         }
+
+
+        public void addVehicle()
+        {
+            foreach (var i in vehicleList.GetSelectedItems())
+            {
+                var item = vehicleList.GetItemText(i);
+                dialog.Hide();
+                DrawVehicle(item);
+                Input.SetMouseMode(Input.MouseMode.Captured);
+
+                break;
+            }
+        }
+
         public void addObject()
         {
             foreach (var i in objectList.GetSelectedItems())
@@ -102,6 +191,27 @@ namespace Game
 
                 break;
             }
+        }
+
+        private void DrawVehicle(string modelName)
+        {
+            if (newWorldObject != null)
+                return;
+
+            newWorldObject = new Game.WorldObjectNode
+            {
+                worldObject = new Game.WorldObject
+                {
+                    type = Game.WorldObjectType.VEHICLE,
+                    modelName = modelName
+                }
+            };
+
+            newWorldObject.Name = "temp_object";
+            saveObject = false;
+            world.AddChild(newWorldObject);
+            newWorldObject.LoadObjectByFilePath();
+
         }
 
         public void Show()
@@ -117,6 +227,9 @@ namespace Game
 
         public override void _PhysicsProcess(float delta)
         {
+            if (newWorldObject == null || !newWorldObject.IsInsideTree())
+                return;
+
             if (Input.GetMouseMode() != Input.MouseMode.Visible)
                 MoveObject();
 
@@ -175,18 +288,12 @@ namespace Game
                 }
             };
 
-            var spawnThread = new System.Threading.Thread(() =>
-            {
-                bool result = newWorldObject.LoadObjectByFilePath();
-                if (result)
-                {
-                    newWorldObject.Name = "temp_object";
-                    saveObject = false;
-                    world.AddChild(newWorldObject);
-                }
-            });
 
-            spawnThread.Start();
+            newWorldObject.Name = "temp_object";
+            saveObject = false;
+            world.AddChild(newWorldObject);
+            newWorldObject.LoadObjectByFilePath();
+
         }
         public override void _Input(InputEvent @event)
         {
@@ -252,9 +359,6 @@ namespace Game
 
         private void MoveObject()
         {
-            if (newWorldObject == null || !newWorldObject.IsInsideTree())
-                return;
-
             player.onFocusing = true;
 
             if (player.rayDrag.IsColliding())
